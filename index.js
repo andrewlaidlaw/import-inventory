@@ -14,6 +14,7 @@ const mongoPort = process.env.database_port;
 const mongoDatabase = process.env.database_name;
 const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
+var mongoCollection = "inventory";
 
 // Set variables
 const filename = "inventory.csv";
@@ -23,7 +24,7 @@ const filename = "inventory.csv";
 // Used for OpenShift environment
 var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 // Used for local testing
-// var url = "mongodb://localhost:27017/inventory";
+var url = "mongodb://localhost:27017/inventory";
 console.log("MongoDB instance is at: " + url);
 
 // Set Express.js to listen for all connections
@@ -65,7 +66,7 @@ app.get('/inventory', async (req, res) => {
         try {
             await client.connect();
             console.log("connected to database");
-            const collection = client.db(mongoDatabase).collection("inventory");
+            const collection = client.db(mongoDatabase).collection(mongoCollection);
             result = await collection.find().toArray();
         } finally {
             await client.close();
@@ -91,8 +92,8 @@ app.get('/importinventory', async (req, res) => {
         try {
             await client.connect();
             console.log("connected");
-            result = await client.db(mongoDatabase).collection("inventory").insertMany(jsonData);
-            console.log(result.insertedCount + "entries inserted");
+            result = await client.db(mongoDatabase).collection(mongoCollection).insertMany(jsonData);
+            console.log(result.insertedCount + " entries inserted");
             console.log("insert completed");
         } finally {
             await client.close();
@@ -125,7 +126,7 @@ app.get('/deleteall', async (req, res) => {
         try {
             await client.connect();
             console.log("connected");
-            const collection = client.db(mongoDatabase).collection("inventory");
+            const collection = client.db(mongoDatabase).collection(mongoCollection);
             console.log("collection set");
             result = await collection.deleteMany();
             console.log(result.deletedCount + ' entries deleted');
