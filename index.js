@@ -24,7 +24,7 @@ const filename = "inventory.csv";
 // Used for OpenShift environment
 var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 // Used for local testing
-var url = "mongodb://localhost:27017/inventory";
+// var url = "mongodb://localhost:27017/inventory";
 console.log("MongoDB instance is at: " + url);
 
 // Set Express.js to listen for all connections
