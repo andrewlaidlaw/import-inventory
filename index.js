@@ -14,7 +14,7 @@ const mongoPort = process.env.database_port;
 const mongoDatabase = process.env.database_name;
 const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
-var mongoCollection = "inventory";
+const mongoCollection = process.env.database_collection;
 
 // Set variables
 const filename = "inventory.csv";
